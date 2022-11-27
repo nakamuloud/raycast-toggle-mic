@@ -12,9 +12,16 @@
   "commands": [
     {
       "name": "menu",
-      "title": "Toggle Audio Input",
+      "title": "Show input volume in menubar",
       "description": "Template for showing a menu bar extra",
-      "mode": "menu-bar"
+      "mode": "menu-bar",
+      "interval": "10s"
+    },
+    {
+      "name": "toggle",
+      "title": "Show input volume in menubar",
+      "description": "Template for showing a menu bar extra",
+      "mode": "no-view"
     }
   ],
   "dependencies": {

@@ -1,30 +1,18 @@
-import { closeMainWindow, Icon, MenuBarExtra } from "@raycast/api";
+import { closeMainWindow, environment, Icon, MenuBarExtra } from "@raycast/api";
 import { useCachedState } from "@raycast/utils";
-import { getMicVolume, setMicVolume } from "./ mic.service";
+import { useEffect } from "react";
+import { toggleMicVolume } from "./ mic.service";
+import { micVolumeKey } from "./config";
 
 export default function Command() {
-  closeMainWindow({ clearRootSearch: true });
-  const [volumeState, setVolumeState] = useCachedState(
-    "currentMicVolume",
-    { previous: "100", current: "0" },
-    { cacheNamespace: "MicControl" }
-  );
-  if (getMicVolume() === "0") {
-    // case unMute
-    const vol = volumeState.previous === "0" ? "100" : volumeState.previous;
-    setVolumeState({ current: vol, previous: "0" });
-    setMicVolume(vol);
-  } else {
-    // case Mute
-    const vol = volumeState.current === "0" ? "100" : getMicVolume();
-    setVolumeState({ current: "0", previous: vol });
-    setMicVolume("0");
-  }
+  console.log(environment.launchType);
+  const [volume, setVolume] = useCachedState<number>(micVolumeKey, 0);
+  // useEffect(() => {
+  //   return () => {
+  //     f();
+  //   };
+  // }, []);
   return (
-    <MenuBarExtra
-      tooltip="Current Mic input volume"
-      title={(volumeState.current + "  ").slice(0, 3)}
-      icon={volumeState.current === "0" ? Icon.MicrophoneDisabled : Icon.Microphone}
-    ></MenuBarExtra>
+    <MenuBarExtra title={`${volume}`} icon={volume === 0 ? Icon.MicrophoneDisabled : Icon.Microphone}></MenuBarExtra>
   );
 }
